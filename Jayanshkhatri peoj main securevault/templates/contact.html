@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+:root {
+    --gold: #f0a500;
+    --amber: #f5c842;
+    --orange: #e86210;
+    --bg: #0a0800;
+    --card-bg: #110e00;
+    --input-bg: #1a1500;
+    --border-dim: rgba(240,165,0,0.13);
+    --border-mid: rgba(240,165,0,0.28);
+    --border-glow: rgba(240,165,0,0.55);
+    --text-muted: #9a8050;
+    --text-dim: #5a4a20;
+    --text-body: #c8a85a;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+}
+
+/* ── HERO ── */
+.contact-hero {
+    text-align: center;
+    padding: 5rem 1.5rem 3rem;
+}
+
+.contact-hero h1 {
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: linear-gradient(135deg, var(--amber), var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+}
+
+.contact-hero p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.contact-hero::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--orange));
+    margin: 1.25rem auto 0;
+    border-radius: 2px;
+}
+
+/* ── FORM ── */
+.contact-form.glass {
+    background: var(--card-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    max-width: 520px;
+    margin: 0 auto 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-form.glass::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--amber), var(--orange), transparent);
+}
+
+.contact-form input,
+.contact-form textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 9px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    color: #e8d08a;
+    font-family: inherit;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: var(--text-dim); }
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--border-glow);
+    background: #1e1800;
+}
+
+.contact-form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.contact-form button[type="submit"] {
+    background: linear-gradient(135deg, var(--gold), var(--amber), var(--orange));
+    border: none;
+    border-radius: 9px;
+    padding: 0.75rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #1a1000;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+    margin-top: 0.25rem;
+}
+
+.contact-form button[type="submit"]:hover { opacity: 0.88; }
+.contact-form button[type="submit"]:active { transform: scale(0.98); }
+
+/* ── REVEAL ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+
+<section class="contact-hero reveal">
+    <h1>Secure Communication</h1>
+    <p>Send encrypted queries directly to our system.</p>
+</section>
+
+<section>
+<form class="contact-form glass reveal">
+
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Email Address">
+    <textarea placeholder="Message"></textarea>
+
+    <button type="submit">Transmit Securely →</button>
+
+</form>
+</section>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+{% endblock %} 

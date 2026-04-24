@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+/* ── BASE RESET ── */
+body {
+    background: black;
+    color: white;
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    transition: opacity 0.3s ease;
+}
+
+/* ── NAVBAR (basic fallback if not in style.css) ── */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.navbar .logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.navbar a:hover {
+    opacity: 1;
+}
+
+/* ── REVEAL ANIMATION (FIXED) ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="logo">SecureVault</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/contact">Contact</a>
+    </nav>
+</header>
+
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
+
+<script>
+// ── SAFE PAGE LOAD ──
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.style.opacity = "1";
+});
+
+// ── PAGE TRANSITION ──
+document.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", function(e) {
+        if (this.href.includes("#")) return;
+
+        e.preventDefault();
+        document.body.style.opacity = "0";
+
+        setTimeout(() => {
+            window.location = this.href;
+        }, 200);
+    });
+});
+
+// ── REVEAL ANIMATION (FIXED) ──
+document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".reveal").forEach(el => {
+        observer.observe(el);
+
+        // 🔥 Force visible if already on screen
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+            el.classList.add("show");
+        }
+    });
+});
+</script>
+
+</body>
+</html> 

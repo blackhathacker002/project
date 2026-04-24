@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold:    #f0a500;
+    --amber:   #f5c842;
+    --orange:  #e86210;
+    --bg:      #0a0800;
+    --bg2:     #110e00;
+    --bg3:     #1a1500;
+    --bg4:     #221c00;
+    --border:  rgba(240,165,0,0.12);
+    --border2: rgba(240,165,0,0.22);
+    --text:    #f5edd0;
+    --text2:   #a89060;
+    --text3:   #6b5c38;
+    --font:    'Inter', system-ui, sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    overflow-x: hidden;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  .logo {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0 28px 36px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo span {
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--text3);
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  nav {
+    flex: 1;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  nav a:hover {
+    color: var(--text);
+    background: rgba(240,165,0,0.06);
+    border-color: var(--border);
+  }
+  nav a.active {
+    color: var(--gold);
+    background: rgba(240,165,0,0.1);
+    border-color: rgba(240,165,0,0.2);
+    font-weight: 500;
+  }
+  nav a .ico {
+    width: 16px; height: 16px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  nav a.active .ico { opacity: 1; }
+
+  nav a.logout { margin-top: auto; }
+
+  .sys-status {
+    margin: 0 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(232,98,16,0.08);
+    border: 1px solid rgba(232,98,16,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    text-transform: uppercase;
+  }
+  .pulse-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:0.4; transform:scale(0.7); }
+  }
+
+  /* ── MAIN ── */
+  main {
+    background: var(--bg);
+    padding: 36px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+  .topbar-left h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .topbar-left p {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .search-wrap { position: relative; }
+  .search-wrap .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px; height: 14px;
+    pointer-events: none;
+    color: var(--text3);
+  }
+  #searchInput {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px 9px 36px;
+    font-size: 13px;
+    font-family: var(--font);
+    color: var(--text);
+    width: 220px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #searchInput::placeholder { color: var(--text3); }
+  #searchInput:focus { border-color: var(--border2); }
+
+  /* ── METRICS ── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .metric-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .metric-card:hover { border-color: var(--border2); }
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+  .metric-value {
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .metric-value.gold { color: var(--gold); }
+  .metric-sub { font-size: 11px; color: var(--text3); }
+
+  /* ── ADVANCED GRID ── */
+  .adv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel h3 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 14px;
+  }
+  .gold-line {
+    width: 24px; height: 2px;
+    background: var(--gold);
+    border-radius: 1px;
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  /* Clock */
+  #clock {
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .clock-date {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  /* Ring */
+  .ring-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .ring-label {
+    position: absolute;
+    text-align: center;
+  }
+  .ring-label .pct {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .ring-label .sub {
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .bg-ring    { fill: none; stroke: var(--bg4); stroke-width: 6; }
+  .progress-ring {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 6;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* Bars */
+  .bars-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 80px;
+  }
+  .bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    transition: height 0.55s cubic-bezier(.4,0,.2,1);
+    min-height: 6px;
+  }
+  .bar:nth-child(odd)  { background: rgba(240,165,0,0.3); }
+  .bar:nth-child(even) { background: rgba(232,98,16,0.3); }
+  .bar-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .bar-labels span {
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── VAULT ── */
+  .vault-section { position: relative; z-index: 2; }
+  .vault-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .vault-header h2 {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+  .vault-count { font-size: 11px; color: var(--text3); }
+
+  .file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .file-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .file-card:hover {
+    border-color: var(--border2);
+    background: var(--bg4);
+    transform: translateY(-1px);
+  }
+
+  .file-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .file-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .file-icon svg { width: 16px; height: 16px; }
+
+  .badge {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .badge.enc {
+    background: rgba(240,165,0,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(240,165,0,0.25);
+  }
+  .badge.dec {
+    background: rgba(232,98,16,0.1);
+    color: var(--orange);
+    border: 1px solid rgba(232,98,16,0.2);
+  }
+
+  .file-name {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .view-btn {
+    display: block;
+    text-align: center;
+    padding: 7px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid var(--border2);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .view-btn:hover {
+    background: rgba(240,165,0,0.1);
+    color: var(--gold);
+    border-color: rgba(240,165,0,0.4);
+  }
+
+  /* ── AMBIENT ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb1 { width: 500px; height: 500px; background: rgba(240,165,0,0.035); top: -120px; right: 80px; }
+  .orb2 { width: 350px; height: 350px; background: rgba(232,98,16,0.025); bottom: 60px; left: 280px; }
+
+  .cursor-glow {
+    position: fixed;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,165,0,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    transition: left 0.08s linear, top 0.08s linear;
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="cursor-glow" id="cg"></div>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside>
+    <div class="logo">
+      SecureVault
+      <span>Encryption OS v2.4</span>
+    </div>
+
+    <nav>
+      <a href="/dashboard" class="active">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="1" y="1" width="6" height="6" rx="1.5"/>
+          <rect x="9" y="1" width="6" height="6" rx="1.5"/>
+          <rect x="1" y="9" width="6" height="6" rx="1.5"/>
+          <rect x="9" y="9" width="6" height="6" rx="1.5"/>
+        </svg>
+        Dashboard
+      </a>
+      <a href="/new">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="8" cy="8" r="6.5"/>
+          <line x1="8" y1="5" x2="8" y2="11"/>
+          <line x1="5" y1="8" x2="11" y2="8"/>
+        </svg>
+        New File
+      </a>
+      <a href="/encrypt">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="7" width="10" height="7.5" rx="1.5"/>
+          <path d="M5 7V5a3 3 0 016 0v2"/>
+        </svg>
+        Encrypt
+      </a>
+      <a href="/decrypt">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="7" width="10" height="7.5" rx="1.5"/>
+          <path d="M5 7V5a3 3 0 016 0v2" stroke-dasharray="2 2"/>
+        </svg>
+        Decrypt
+      </a>
+      <a href="/logout" class="logout">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10 8H2m3-3l-3 3 3 3"/>
+          <path d="M7 3h5a1 1 0 011 1v8a1 1 0 01-1 1H7"/>
+        </svg>
+        Logout
+      </a>
+    </nav>
+
+    <div class="sys-status">
+      <div class="pulse-dot"></div>
+      System Active
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Encryption Control</h1>
+        <p>Monitor and manage your secure vault</p>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="6.5" cy="6.5" r="5"/>
+          <line x1="10.5" y1="10.5" x2="14" y2="14"/>
+        </svg>
+        <input id="searchInput" placeholder="Search files…" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-label">Encrypted</div>
+        <div class="metric-value" id="encCount">{{ encrypted_count }}</div>
+        <div class="metric-sub">files secured</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Non-Encrypted</div>
+        <div class="metric-value" id="decCount">{{ decrypted_count }}</div>
+        <div class="metric-sub">files exposed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Ratio</div>
+        <div class="metric-value gold" id="ratioVal">—</div>
+        <div class="metric-sub">encryption coverage</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Total</div>
+        <div class="metric-value" id="totalVal">—</div>
+        <div class="metric-sub">files in vault</div>
+      </div>
+    </div>
+
+    <!-- ADVANCED PANELS -->
+    <div class="adv-grid">
+
+      <!-- Clock -->
+      <div class="panel">
+        <h3>System Time</h3>
+        <div class="gold-line"></div>
+        <div id="clock">00:00:00</div>
+        <div class="clock-date" id="clockDate">—</div>
+      </div>
+
+      <!-- Encryption Ring -->
+      <div class="panel">
+        <h3>Encryption Ratio</h3>
+        <div class="gold-line"></div>
+        <div class="ring-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" class="bg-ring"/>
+            <circle cx="60" cy="60" r="50" class="progress-ring" id="progressRing"/>
+          </svg>
+          <div class="ring-label">
+            <div class="pct" id="ringText">0%</div>
+            <div class="sub">secure</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Bars -->
+      <div class="panel">
+        <h3>System Activity</h3>
+        <div class="gold-line"></div>
+        <div class="bars-wrap" id="bars">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <div class="bar-labels">
+          <span>Read</span>
+          <span>Write</span>
+          <span>Enc</span>
+          <span>Net</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DATA HOLDER (used by JS) -->
+    <div id="pieData"
+         data-enc="{{ encrypted_count }}"
+         data-dec="{{ decrypted_count }}"
+         style="display:none;">
+    </div>
+
+    <!-- FILE SYSTEM -->
+    <div class="vault-section">
+      <div class="vault-header">
+        <h2>Secure Vault</h2>
+        <span class="vault-count" id="vaultCount">—</span>
+      </div>
+
+      <div class="file-grid" id="fileGrid">
+        {% for file in files %}
+        <div class="file-card">
+          <div class="file-top">
+            <div class="file-icon">
+              <svg viewBox="0 0 16 16" fill="none" stroke="#f0a500" stroke-width="1.5">
+                <path d="M9 1H3a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V6L9 1z"/>
+                <polyline points="9 1 9 6 14 6"/>
+              </svg>
+            </div>
+            <span class="badge {% if file.status == 'Encrypted' %}enc{% else %}dec{% endif %}">
+              {{ file.status }}
+            </span>
+          </div>
+          <div class="file-name">{{ file.name }}</div>
+          <a href="/view/{{ file.name | urlencode }}" class="view-btn">View</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+window.onload = function () {
+
+  /* ── PAGE LOAD ── */
+  document.body.classList.add("loaded");
+
+  /* ── CLOCK ── */
+  var DAYS   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  function updateClock() {
+    var d = new Date();
+    document.getElementById("clock").innerText =
+      d.toLocaleTimeString([], { hour12: false });
+    document.getElementById("clockDate").innerText =
+      DAYS[d.getDay()] + " · " + d.getDate() + " " + MONTHS[d.getMonth()] + " " + d.getFullYear();
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  /* ── DATA ── */
+  var dataDiv = document.getElementById("pieData");
+  var enc   = parseInt(dataDiv.getAttribute("data-enc")) || 0;
+  var dec   = parseInt(dataDiv.getAttribute("data-dec")) || 0;
+  var total = enc + dec;
+
+  /* ── METRICS ── */
+  document.getElementById("totalVal").innerText  = total;
+  document.getElementById("vaultCount").innerText = total + " files";
+
+  var pct = total > 0 ? Math.round((enc / total) * 100) : 0;
+  document.getElementById("ratioVal").innerText  = pct + "%";
+
+  /* ── ENCRYPTION RING ── */
+  var circle = document.getElementById("progressRing");
+  var r      = 50;
+  var circ   = 2 * Math.PI * r;
+
+  circle.style.strokeDasharray  = circ;
+  circle.style.strokeDashoffset = circ;
+  document.getElementById("ringText").innerText = pct + "%";
+
+  setTimeout(function () {
+    circle.style.strokeDashoffset = circ - (pct / 100) * circ;
+  }, 200);
+
+  /* ── LIVE BARS ── */
+  var bars = document.querySelectorAll(".bar");
+
+  function animateBars() {
+    bars.forEach(function (bar) {
+      bar.style.height = (Math.random() * 60 + 10) + "px";
+    });
+  }
+  animateBars();
+  setInterval(animateBars, 700);
+
+  /* ── SEARCH ── */
+  document.getElementById("searchInput").addEventListener("input", function () {
+    var v = this.value.toLowerCase().trim();
+    document.querySelectorAll(".file-card").forEach(function (card) {
+      var name = card.querySelector(".file-name").innerText.toLowerCase();
+      card.style.display = name.includes(v) ? "" : "none";
+    });
+  });
+
+};
+
+/* ── CURSOR GLOW ── */
+document.addEventListener("mousemove", function (e) {
+  var g = document.getElementById("cg");
+  if (g) {
+    g.style.left = e.clientX + "px";
+    g.style.top  = e.clientY + "px";
+  }
+});
+</script>
+
+</body>
+</html>

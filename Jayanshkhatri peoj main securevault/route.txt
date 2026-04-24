@@ -1,0 +1,1880 @@
+/* ================= ROOT ================= */
+:root {
+    --bg-dark: #0f0f0f;
+    --bg-soft: #1a1a1a;
+
+    --primary: #FA8112;
+    --secondary: #F5E7C6;
+    --light: #FAF3E1;
+
+    --text-main: #FAF3E1;
+    --text-dim: rgba(245,231,198,0.6);
+
+    --glass: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+}
+
+/* ================= GLOBAL ================= */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* ================= MAIN FIX ================= */
+#main-content {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+#main-content.show {
+    opacity: 1;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    padding: 20px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(12px);
+
+    z-index: 100;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+nav a {
+    margin: 0 15px;
+    color: var(--text-dim);
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: var(--secondary);
+}
+
+.nav-btn {
+    padding: 8px 18px;
+    border: 1px solid var(--secondary);
+    border-radius: 6px;
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+/* ================= HERO ================= */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.bg-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+    z-index: 0;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 60px;
+}
+
+.sub {
+    color: var(--text-dim);
+}
+
+/* ================= BUTTONS ================= */
+.cta {
+    padding: 12px 26px;
+    margin: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.primary {
+    background: var(--primary);
+    color: #000;
+}
+
+.secondary {
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+}
+
+/* ================= FEATURES PREMIUM ================= */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 140px 80px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    width: 280px;
+    padding: 30px;
+
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(12px);
+
+    transition: all 0.5s ease;
+}
+
+/* FLOATING EFFECT */
+.feature {
+    animation: float 6s ease-in-out infinite;
+}
+
+.feature:nth-child(2) {
+    animation-delay: 1s;
+}
+
+.feature:nth-child(3) {
+    animation-delay: 2s;
+}
+
+/* HOVER */
+.feature:hover {
+    transform: translateY(-12px) scale(1.03);
+    border-color: rgba(250,129,18,0.3);
+}
+
+/* TEXT */
+.feature h3 {
+    margin-bottom: 10px;
+}
+
+.feature p {
+    color: rgba(255,255,255,0.6);
+}
+/* ================= PREMIUM WORKFLOW ================= */
+.workflow {
+    padding: 140px 80px;
+    text-align: center;
+}
+
+/* TITLE */
+.section-title {
+    font-size: 42px;
+    margin-bottom: 80px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+/* FLOW CONTAINER */
+.flow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* STEP CARD */
+.flow-step {
+    width: 220px;
+    padding: 30px;
+
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(12px);
+
+    transition: all 0.6s ease;
+
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+}
+
+/* SHOW ANIMATION */
+.flow-step.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* HOVER (APPLE FEEL) */
+.flow-step:hover {
+    transform: translateY(-10px) scale(1.03);
+    border-color: rgba(250,129,18,0.3);
+}
+
+/* NUMBER CIRCLE */
+.circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, #FA8112, #ff9b3d);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 15px;
+
+    font-weight: bold;
+    color: #222;
+
+    box-shadow: 0 0 20px rgba(250,129,18,0.4);
+}
+
+/* CONNECTING LINE */
+.flow-line {
+    width: 70px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #FA8112, transparent);
+
+    opacity: 0;
+    transform: scaleX(0);
+    transition: 0.6s ease;
+}
+
+.flow-line.show {
+    opacity: 1;
+    transform: scaleX(1);
+}
+/* ================= PROCESS (APPLE STYLE) ================= */
+.process {
+    padding: 140px 60px;
+    text-align: center;
+}
+
+.process-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* STEP */
+.process-step {
+    padding: 18px 28px;
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    font-size: 14px;
+
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s ease;
+}
+
+.process-step.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* HOVER */
+.process-step:hover {
+    background: rgba(250,129,18,0.1);
+    border-color: rgba(250,129,18,0.3);
+}
+
+/* ARROWS */
+.arrow {
+    font-size: 22px;
+    color: rgba(255,255,255,0.3);
+
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.6s ease;
+}
+
+.arrow.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================= ENTER SCREEN ================= */
+#enter-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ================= VIDEO ================= */
+#video-intro {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+
+#video-intro video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} 
+/* ================= ENTER SCREEN PREMIUM ================= */
+#enter-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* SOFT MOVING GLOW BACKGROUND */
+.enter-bg {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+
+    background: radial-gradient(circle at center, rgba(250,129,18,0.12), transparent 60%);
+    filter: blur(80px);
+
+    animation: moveBg 10s ease-in-out infinite alternate;
+}
+
+/* CONTENT */
+.enter-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+
+/* LOGO */
+.enter-logo {
+    font-size: 52px;
+    color: #FAF3E1;
+    letter-spacing: 3px;
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    animation: fadeUp 1.2s ease forwards;
+}
+
+/* TYPING TEXT */
+.enter-sub {
+    margin-top: 10px;
+    color: rgba(245,231,198,0.6);
+    font-size: 14px;
+    min-height: 20px;
+
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards;
+    animation-delay: 0.4s;
+}
+
+/* TAP ACTION */
+.enter-action {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #FA8112;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards;
+    animation-delay: 0.8s;
+}
+
+/* PULSE DOT */
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #FA8112;
+    border-radius: 50%;
+
+    animation: pulse 1.5s infinite;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.6); opacity: 0.4; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes moveBg {
+    0% {
+        transform: translate(-6%, -6%) scale(1);
+    }
+    100% {
+        transform: translate(6%, 6%) scale(1.1);
+    }
+} 
+/* ================= FAQ PREMIUM ================= */
+.faq {
+    padding: 140px 80px;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* ITEM */
+.faq-item {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* QUESTION */
+.faq-item h3 {
+    font-size: 18px;
+    margin: 0;
+    transition: 0.3s;
+}
+
+/* ANSWER */
+.faq-item p {
+    max-height: 0;
+    overflow: hidden;
+    color: rgba(255,255,255,0.6);
+
+    transition: all 0.4s ease;
+}
+
+/* ACTIVE */
+.faq-item.active p {
+    max-height: 200px;
+    margin-top: 10px;
+}
+
+.faq-item.active h3 {
+    color: #FA8112;
+}  
+
+
+
+
+
+#Index file 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault</title>
+<link rel="stylesheet" href="/static/style.css">
+<script defer src="/static/nav.js"></script>
+
+<style>
+/* HARD FIX: prevent content flashing */
+#main-content {
+    display: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= ENTER SCREEN ================= -->
+<div id="enter-screen">
+    <div class="enter-bg"></div>
+
+    <div class="enter-content">
+        <h1 class="enter-logo">SecureVault</h1>
+        <p class="enter-sub" id="typing-text"></p>
+
+        <div class="enter-action">
+            <span class="pulse-dot"></span>
+            <span>Tap to Enter</span>
+        </div>
+    </div>
+</div>
+
+<!-- ================= VIDEO INTRO ================= -->
+<div id="video-intro">
+    <video id="introVideo" playsinline>
+        <source src="{{ url_for('static', filename='intro.mp4') }}" type="video/mp4">
+    </video>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div id="main-content">
+
+<header class="navbar" id="navbar">
+    <div class="logo">SecureVault</div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="/about">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="/signin" class="nav-btn">Sign In</a>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <video autoplay muted loop class="bg-video">
+        <source src="{{ url_for('static', filename='color.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+        <p class="tag">CYBER DEFENSE</p>
+
+        <h1>
+            Your Secure Gateway<br>To Encrypted Intelligence
+        </h1>
+
+        <p class="sub">
+            Multi-layer authentication. Encryption-driven storage.
+        </p>
+
+        <div class="cta-group">
+            <a href="/signin" class="cta primary">Sign In</a>
+            <a href="/signup" class="cta secondary">Sign Up</a>
+        </div>
+    </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="workflow">
+<h2 class="section-title">System Workflow</h2>
+
+<div class="flow-container">
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step1</div>
+<h3>Upload File</h3>
+</div>
+
+<div class="flow-line"></div>
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step2</div>
+<h3>Select Algorithm</h3>
+</div>
+
+<div class="flow-line"></div>
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step3</div>
+<h3>Encrypt</h3>
+</div>
+
+<div class="flow-line"></div>
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step4</div>
+<h3>Store Securely</h3>
+</div>
+
+</div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+<h2 class="section-title">Encryption Process</h2>
+
+<div class="process-line">
+<div class="process-step fade-scroll">Input</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Algorithm</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Encrypt</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Output</div>
+</div>
+</section>
+
+<section class="process">
+<h2 class="section-title">Decryption Process</h2>
+
+<div class="process-line">
+<div class="process-step fade-scroll">Encrypted</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Key</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Decrypt</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Original</div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+
+<div class="feature floating">
+<h3>🔐 Authentication</h3>
+<p>Secure login with hash + password</p>
+</div>
+
+<div class="feature floating" style="animation-delay:1s;">
+<h3>🧠 Encryption</h3>
+<p>AES, RSA, DES supported</p>
+</div>
+
+<div class="feature floating" style="animation-delay:2s;">
+<h3>📊 Dashboard</h3>
+<p>Organized secure file system</p>
+</div>
+
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+<h2 class="section-title">FAQ</h2>
+
+<div class="faq-item">
+<h3>What is SecureVault?</h3>
+<p>A secure system for encrypting and managing files.</p>
+</div>
+
+<div class="faq-item">
+<h3>Which algorithms are supported?</h3>
+<p>AES, RSA and DES encryption methods.</p>
+</div>
+
+<div class="faq-item">
+<h3>Is it secure?</h3>
+<p>Yes, it uses strong encryption standards.</p>
+</div>
+
+<div class="faq-item">
+<h3>Who developed this?</h3>
+<p>This is developed by cyber security students, Jayansh, Mihir, Jatin and Sagar</p>
+</div>
+
+</section>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const enter = document.getElementById("enter-screen");
+const intro = document.getElementById("video-intro");
+const video = document.getElementById("introVideo");
+const main = document.getElementById("main-content");
+
+let videoStarted = false;
+
+/* CLICK ENTER */
+enter.addEventListener("click", () => {
+    videoStarted = true;
+
+    enter.style.opacity = "0";
+    setTimeout(() => enter.style.display = "none", 400);
+
+    intro.style.opacity = "1";
+    intro.style.zIndex = "9999";
+
+    video.muted = false;
+    video.play();
+});
+
+/* VIDEO END */
+video.onended = () => {
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+        intro.style.display = "none";
+        main.style.display = "block";
+        main.classList.add("show");
+    }, 400);
+};
+
+/* FAILSAFE */
+setTimeout(() => {
+    if (!videoStarted) {
+        intro.style.display = "none";
+        main.style.display = "block";
+        main.classList.add("show");
+    }
+}, 15000);
+
+/* typing */
+const text = "Initializing secure environment...";
+let i = 0;
+function typeEffect(){
+if(i < text.length){
+document.getElementById("typing-text").innerHTML += text.charAt(i);
+i++;
+setTimeout(typeEffect,40);
+}}
+typeEffect();
+
+/* SCROLL ANIMATION */
+const elements = document.querySelectorAll(
+".flow-step, .flow-line, .process-step, .arrow"
+);
+
+window.addEventListener("scroll", () => {
+    const trigger = window.innerHeight * 0.85;
+
+    elements.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+
+        if (top < trigger) {
+            el.classList.add("show");
+        }
+    });
+});
+
+/* FAQ TOGGLE */
+document.querySelectorAll(".faq-item").forEach(item => {
+    item.addEventListener("click", () => {
+        item.classList.toggle("active");
+    });
+});
+</script>
+
+</body>
+</html> 
+
+#updated and new one 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault</title>
+<link rel="stylesheet" href="/static/style.css">
+<script defer src="/static/nav.js"></script>
+
+<style>
+/* HARD FIX: prevent content flashing */
+#main-content {
+    display: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= ENTER SCREEN ================= -->
+<div id="enter-screen">
+    <div class="enter-bg"></div>
+    <div class="enter-grid"></div>
+    <div class="enter-particles"></div> 
+    <div class="data-block block1"></div>
+    <div class="data-block block2"></div>
+    <div class="data-block block3"></div>
+    <div class="energy-line line1"></div>
+    <div class="energy-line line2"></div>  
+    <div class="energy-bg"></div> 
+    <div class="beam beam1"></div>
+    <div class="beam beam2"></div> 
+    <canvas id="particles"></canvas> 
+
+    <div class="enter-content">
+        <h1 class="enter-logo">SecureVault</h1>
+        <p class="enter-sub" id="typing-text"></p>
+        <div class="enter-action advanced-enter">
+
+            <div class="core-ring"></div>
+            <div class="core-ring ring2"></div>
+            <div class="core-ring ring3"></div>
+        
+            <div class="core-center"></div>
+        
+            <span class="enter-text">Tap to Enter</span>
+        </div> 
+    </div>
+</div>
+
+<!-- ================= VIDEO INTRO ================= -->
+<div id="video-intro">
+    <video id="introVideo" playsinline>
+        <source src="{{ url_for('static', filename='intro.mp4') }}" type="video/mp4">
+    </video>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div id="main-content">
+
+<header class="navbar" id="navbar">
+    <div class="logo">SecureVault</div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="/about">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="/signin" class="nav-btn">Sign In</a>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <video autoplay muted loop class="bg-video">
+        <source src="{{ url_for('static', filename='color.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="network-lines"></div>
+    <div class="top-tag">
+        Multi-layer protection for your digital assets
+    </div> 
+    <div class="status-chip chip1">🔐 AES Active</div>
+    <div class="status-chip chip2">🧠 RSA Secure</div>
+    <div class="status-chip chip3">⚡ 2-Step Verified</div>
+    <div class="hero-content advanced">
+
+        <div class="hero-left">   
+            <div class="mini-banner encryption-banner">
+                <div class="scroll-track">
+                    <div class="data-stream">
+                        AES ACTIVE • RSA SECURE • HASH VERIFIED • ENCRYPTION LIVE •
+                    </div>
+                    <div class="data-stream">
+                        AES ACTIVE • RSA SECURE • HASH VERIFIED • ENCRYPTION LIVE •
+                    </div>
+                </div>
+            </div> 
+            <h1>
+                Military-Grade Encryption<br>
+                Meets Intelligent Access Control
+            </h1>
+            
+            <p class="sub">
+                Hash-based identity verification + password security.<br>
+                Encrypt. Store. Control.
+            </p>
+        </div>
+    
+        <div class="hero-right">
+            <a href="/signin" class="cta premium">
+                Get Started →
+            </a>
+        </div>
+    
+    </div> 
+</section>
+<section class="section hash-section reveal">
+
+    <h2>Identity Verification Layer</h2>
+
+    <div class="workflow">
+        <div class="step">Enter Hash ID</div>
+        <div class="line"></div>
+        <div class="step">Validate</div>
+        <div class="line"></div>
+        <div class="step">Access Granted</div>
+    </div>
+
+</section> 
+<section class="section reveal">
+
+    <h2>Password Authentication</h2>
+
+    <div class="password-box">
+        ● ● ● ● ● ●
+    </div>
+
+</section> 
+<section class="section reveal">
+
+    <h2>Encryption Engine</h2>
+
+    <div class="encrypt-flow">
+        <div>AES</div>
+        <div>RSA</div>
+        <div>DES</div>
+    </div>
+
+</section> 
+<section class="section reveal">
+
+    <h2>User Experience</h2>
+
+    <div class="reviews">
+        <div class="card">“Insanely secure system”</div>
+        <div class="card">“Feels like a real product”</div>
+        <div class="card">“Top-tier encryption UI”</div>
+    </div>
+
+</section> 
+<section class="section reveal">
+
+    <h2>FAQ</h2>
+
+    <div class="faq-item">
+        <div class="question">How secure is this?</div>
+        <div class="answer">Military-grade encryption used.</div>
+    </div>
+
+</section> 
+<footer class="footer">
+
+    <div>About Project</div>
+    <div>Authors</div>
+    <div>Get Started</div>
+
+</footer> 
+<div class="connector">
+    <img src="/static/secure-visual.png" />
+</div> 
+<div class="floating-bg">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- WORKFLOW -->
+<section class="workflow">
+<h2 class="section-title">System Workflow</h2>
+
+<div class="flow-container">
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step1</div>
+<h3>Upload File</h3>
+</div>
+
+<div class="flow-line"></div>
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step2</div>
+<h3>Select Algorithm</h3>
+</div>
+
+<div class="flow-line"></div>
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step3</div>
+<h3>Encrypt</h3>
+</div>
+
+<div class="flow-line"></div>
+
+<div class="flow-step fade-scroll">
+<div class="circle">Step4</div>
+<h3>Store Securely</h3>
+</div>
+
+</div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+<h2 class="section-title">Encryption Process</h2>
+
+<div class="process-line">
+<div class="process-step fade-scroll">Input</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Algorithm</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Encrypt</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Output</div>
+</div>
+</section>
+
+<section class="process">
+<h2 class="section-title">Decryption Process</h2>
+
+<div class="process-line">
+<div class="process-step fade-scroll">Encrypted</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Key</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Decrypt</div>
+<div class="arrow">→</div>
+<div class="process-step fade-scroll">Original</div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+
+<div class="feature floating">
+<h3>🔐 Authentication</h3>
+<p>Secure login with hash + password</p>
+</div>
+
+<div class="feature floating" style="animation-delay:1s;">
+<h3>🧠 Encryption</h3>
+<p>AES, RSA, DES supported</p>
+</div>
+
+<div class="feature floating" style="animation-delay:2s;">
+<h3>📊 Dashboard</h3>
+<p>Organized secure file system</p>
+</div>
+
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+<h2 class="section-title">FAQ</h2>
+
+<div class="faq-item">
+<h3>What is SecureVault?</h3>
+<p>A secure system for encrypting and managing files.</p>
+</div>
+
+<div class="faq-item">
+<h3>Which algorithms are supported?</h3>
+<p>AES, RSA and DES encryption methods.</p>
+</div>
+
+<div class="faq-item">
+<h3>Is it secure?</h3>
+<p>Yes, it uses strong encryption standards.</p>
+</div>
+
+<div class="faq-item">
+<h3>Who developed this?</h3>
+<p>This is developed by cyber security students, Jayansh, Mihir, Jatin and Sagar</p>
+</div>
+
+</section>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const enter = document.getElementById("enter-screen");
+const intro = document.getElementById("video-intro");
+const video = document.getElementById("introVideo");
+const main = document.getElementById("main-content");
+
+let videoStarted = false;
+
+/* CLICK ENTER */
+enter.addEventListener("click", () => {
+
+document.body.classList.add("entering");
+
+videoStarted = true;
+
+enter.style.opacity = "0";
+setTimeout(() => enter.style.display = "none", 400);
+
+intro.style.opacity = "1";
+intro.style.zIndex = "9999";
+
+video.muted = false;
+video.play();
+}); 
+
+/* VIDEO END */
+video.onended = () => {
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+        intro.style.display = "none";
+        main.style.display = "block";
+        main.classList.add("show");
+    }, 400);
+};
+
+/* FAILSAFE */
+setTimeout(() => {
+    if (!videoStarted) {
+        intro.style.display = "none";
+        main.style.display = "block";
+        main.classList.add("show");
+    }
+}, 15000);
+
+/* typing */
+const text = "Initializing Secure Vault...\nVerifying Identity...\nAccess Layer Ready...";
+let i = 0;
+function typeEffect(){
+    if(i < text.length){
+        document.getElementById("typing-text").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeEffect,25);
+    }
+} 
+typeEffect();
+
+/* SCROLL ANIMATION */
+const elements = document.querySelectorAll(
+".flow-step, .flow-line, .process-step, .arrow"
+);
+
+window.addEventListener("scroll", () => {
+    const trigger = window.innerHeight * 0.85;
+
+    elements.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+
+        if (top < trigger) {
+            el.classList.add("show");
+        }
+    });
+});
+
+/* FAQ TOGGLE */
+document.querySelectorAll(".faq-item").forEach(item => {
+    item.addEventListener("click", () => {
+        item.classList.toggle("active");
+    });
+});
+/* CURSOR GLOW */
+const glow = document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove", (e) => {
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+    const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<60;i++){
+    particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*2,
+        dx: Math.random()*0.5,
+        dy: Math.random()*0.5
+    });
+}
+
+function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="rgba(255,255,255,0.5)";
+        ctx.fill();
+
+        p.x+=p.dx;
+        p.y+=p.dy;
+
+        if(p.x>canvas.width) p.x=0;
+        if(p.y>canvas.height) p.y=0;
+    });
+
+    requestAnimationFrame(animateParticles);
+}
+
+animateParticles(); 
+});
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("show");
+        }
+    });
+}, { threshold: 0.2 });
+
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+document.querySelectorAll(".faq-item").forEach(item=>{
+    item.addEventListener("click", ()=>{
+        item.classList.toggle("active");
+    });
+}); 
+window.addEventListener("scroll", () => {
+    document.querySelectorAll(".parallax").forEach(el => {
+        let speed = el.dataset.speed;
+        el.style.transform = `translateY(${window.scrollY * speed}px)`;
+    });
+}); 
+</script>
+<div class="cursor-glow"></div>
+
+</body>
+</html>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault</title>
+<link rel="stylesheet" href="/static/style.css">
+<script defer src="/static/nav.js"></script>
+
+<style>
+/* HARD FIX: prevent content flashing */
+#main-content {
+    display: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= ENTER SCREEN ================= -->
+<div id="enter-screen">
+    <div class="enter-bg"></div>
+    <div class="enter-grid"></div>
+    <div class="enter-particles"></div> 
+    <div class="data-block block1"></div>
+    <div class="data-block block2"></div>
+    <div class="data-block block3"></div>
+    <div class="energy-line line1"></div>
+    <div class="energy-line line2"></div>  
+    <div class="energy-bg"></div> 
+    <div class="beam beam1"></div>
+    <div class="beam beam2"></div> 
+    <canvas id="particles"></canvas> 
+
+    <div class="enter-content">
+        <h1 class="enter-logo">SecureVault</h1>
+        <p class="enter-sub" id="typing-text"></p>
+        <div class="enter-action advanced-enter">
+
+            <div class="core-ring"></div>
+            <div class="core-ring ring2"></div>
+            <div class="core-ring ring3"></div>
+        
+            <div class="core-center"></div>
+        
+            <span class="enter-text">Tap to Enter</span>
+        </div> 
+    </div>
+</div>
+
+<!-- ================= VIDEO INTRO ================= -->
+<div id="video-intro">
+    <video id="introVideo" playsinline>
+        <source src="{{ url_for('static', filename='intro.mp4') }}" type="video/mp4">
+    </video>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div id="main-content">
+<div id="top"></div>
+
+<header class="navbar" id="navbar">
+    <div class="logo">SecureVault</div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="/about">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="/signin" class="nav-btn">Sign In</a>
+    </div>
+</header>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="flash-message">
+        {{ messages[0] }}
+    </div>
+{% endif %}
+{% endwith %} 
+
+<!-- HERO -->
+<section class="hero">
+    <video autoplay muted loop class="bg-video">
+        <source src="{{ url_for('static', filename='color.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="network-lines"></div>
+    <div class="top-tag">
+        Multi-layer protection for your digital assets
+    </div> 
+    <div class="status-chip chip1">🔐 AES Active</div>
+    <div class="status-chip chip2">🧠 RSA Secure</div>
+    <div class="status-chip chip3">⚡ 2-Step Verified</div>
+    <div class="hero-content advanced">
+
+        <div class="hero-left">   
+            <div class="mini-banner encryption-banner">
+                <div class="scroll-track">
+                    <div class="data-stream">
+                        AES ACTIVE • RSA SECURE • HASH VERIFIED • ENCRYPTION LIVE •
+                    </div>
+                    <div class="data-stream">
+                        AES ACTIVE • RSA SECURE • HASH VERIFIED • ENCRYPTION LIVE •
+                    </div>
+                </div>
+            </div> 
+            <h1>
+                Military-Grade Encryption<br>
+                Meets Intelligent Access Control
+            </h1>
+            
+            <p class="sub">
+                Hash-based identity verification + password security.<br>
+                Encrypt. Store. Control.
+            </p>
+        </div>
+    
+        <div class="hero-right">
+            <a href="/signin" class="cta premium">
+                Get Started →
+            </a>
+        </div>
+    
+    </div> 
+</section>
+<!-- ================= SYSTEM WORKFLOW ================= -->
+<section class="system-hierarchy">
+    <div class="highlight-glow glow1"></div>
+    <div class="highlight-glow glow2"></div>
+    <div class="highlight-glow glow3"></div> 
+
+    <div class="magic-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <h2 class="section-title reveal">System Architecture</h2>
+
+    <p class="system-intro reveal">
+        A closed-loop security system designed to eliminate trust
+        and replace it with mathematical certainty.
+    </p>
+
+    <div class="hierarchy-flow">
+
+        <div class="hierarchy-step reveal">
+            <div class="step-glow"></div>
+            <h3>01 — Identity Creation</h3>
+            <p>Register using phone, email & password</p>
+        </div>
+
+        <div class="hierarchy-line"></div>
+
+        <div class="hierarchy-step reveal">
+            <div class="step-glow"></div>
+            <h3>02 — Hash Generation</h3>
+            <p>Your number becomes a unique HashID</p>
+        </div>
+
+        <div class="hierarchy-line"></div>
+
+        <div class="hierarchy-step reveal">
+            <div class="step-glow"></div>
+            <h3>03 — Secure Access</h3>
+            <p>Login using HashID + Password</p>
+        </div>
+
+        <div class="hierarchy-line"></div>
+
+        <div class="hierarchy-step reveal">
+            <div class="step-glow"></div>
+            <h3>04 — Dashboard Control</h3>
+            <p>Create and manage encrypted files</p>
+        </div>
+
+        <div class="hierarchy-line"></div>
+
+        <div class="hierarchy-step reveal">
+            <div class="step-glow"></div>
+            <h3>05 — Encryption Layer</h3>
+            <p>AES / RSA / DES processing</p>
+        </div>
+
+        <div class="hierarchy-line"></div>
+
+        <div class="hierarchy-step reveal">
+            <div class="step-glow"></div>
+            <h3>06 — Decryption Access</h3>
+            <p>Recover data using secure key</p>
+        </div>
+
+    </div>
+
+</section> 
+</section> <!-- END SYSTEM HIERARCHY -->
+
+<!-- 🔥 CONNECTOR IMAGE -->
+<div class="system-connector reveal">
+    <img src="https://scontent-sin2-3.xx.fbcdn.net/o1/v/t0/f2/m421/AQO3qJKkh4Zs2-YcSTqfnvpF3eGg4wWxln_1CALqyGUy-CGyYKtQG9svr7_AJrVxEmGVm7m-a0rHzt6RSldPc3bQWznSYNKGDBQ0fdMbr2Oa54N1hHvIm0dm4GL6fEFEUJR2Uar0kcff7Vsk_Jp_ntRWyhTEKQ.jpeg?_nc_ht=scontent-sin2-3.xx.fbcdn.net&_nc_gid=AyzQQqFFJGprwCRpVdbefg&_nc_cat=107&_nc_oc=AdrGEUEAyPt7jdiNrR71nu_anfFcuW-EPwbVkODM16JT1_wdJD7AsemJ325E0CthQh4&ccb=9-4&oh=00_Af2JhGu4e-GuwCpykX9H_GhEdm9b7xEFbRQNPegHZ00mxQ&oe=69DD6102&_nc_sid=5b3566" alt="system flow connector">
+    <div class="connector-glow"></div> 
+</div> 
+<!-- ================= SYSTEM FLOW ================= -->
+<section class="system-flow">
+    <div class="highlight-glow glow1"></div>
+    <div class="highlight-glow glow2"></div>
+    <div class="highlight-glow glow3"></div> 
+
+    <div class="magic-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- IDENTITY -->
+    <div class="flow-block reveal">
+        <h2 class="system-title">Identity Verification</h2>
+        <p class="system-desc">
+            Every identity is processed through a multi-layer verification system.
+            Nothing is trusted. Everything is validated.
+        </p>
+
+        <div class="flow-line-horizontal">
+            <div class="flow-box">Enter Hash ID</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">Validate</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box success">Access Granted</div>
+        </div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="flow-block reveal">
+        <h2>Password Authentication</h2>
+
+        <div class="flow-line-horizontal">
+            <div class="flow-box">Enter Password</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box secure">••••••</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box success">Verified</div>
+        </div>
+    </div>
+
+    <!-- ENCRYPTION -->
+    <div class="flow-block reveal">
+        <h2>Encryption Engine</h2>
+
+        <div class="flow-line-horizontal">
+            <div class="flow-box">AES</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">RSA</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">DES</div>
+        </div>
+    </div>
+
+</section> 
+
+
+<!-- ================= PROCESS ================= -->
+<section class="system-section">
+    <div class="highlight-glow glow1"></div>
+    <div class="highlight-glow glow2"></div>
+    <div class="highlight-glow glow3"></div> 
+
+    <!-- ✨ Background (if using) -->
+    <div class="magic-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- 💎 CONTENT STARTS -->
+    <h2 class="reveal delay-1">Encrypted Processing</h2>
+    
+    <p class="reveal delay-2">
+        Data flows through secure nodes, invisible to the surface,
+        verified before it ever reaches its destination.
+    </p>
+
+</section>
+
+<section class="process">
+<h2 class="section-title">Encryption Process</h2>
+
+<div class="process-line">
+<div class="process-step">Input</div>
+<div class="arrow">→</div>
+<div class="process-step">Algorithm</div>
+<div class="arrow">→</div>
+<div class="process-step">Encrypt</div>
+<div class="arrow">→</div>
+<div class="process-step">Output</div>
+</div>
+</section>
+
+
+<section class="process">
+<h2 class="section-title">Decryption Process</h2>
+
+<div class="process-line">
+<div class="process-step">Encrypted</div>
+<div class="arrow">→</div>
+<div class="process-step">Key</div>
+<div class="arrow">→</div>
+<div class="process-step">Decrypt</div>
+<div class="arrow">→</div>
+<div class="process-step">Original</div>
+</div>
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+    <div class="highlight-glow glow1"></div>
+    <div class="highlight-glow glow2"></div>
+    <div class="highlight-glow glow3"></div>   
+    <div class="floating-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+<div class="feature">
+<h3>🔐 Authentication</h3>
+<p>Secure login with hash + password</p>
+</div>
+
+<div class="feature">
+<h3>🧠 Encryption</h3>
+<p>AES, RSA, DES supported</p>
+</div>
+
+<div class="feature">
+<h3>📊 Dashboard</h3>
+<p>Organized secure file system</p>
+</div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+<section class="faq">
+    <h2 class="section-title">System Queries</h2>
+    
+    <div class="faq-container">
+    
+    <div class="faq-item">
+    <h3>What is SecureVault?</h3>
+    <p>A secure system for encrypting and managing files.</p>
+    </div>
+    
+    <div class="faq-item">
+    <h3>Which algorithms are supported?</h3>
+    <p>AES, RSA and DES encryption methods.</p>
+    </div>
+    
+    <div class="faq-item">
+    <h3>Is it secure?</h3>
+    <p>Yes, Built with multi-layer encryption and verification systems.</p>
+    </div>
+    <div class="faq-item">
+        <h3>Who built this system?</h3>
+        <p>
+            This is made by Top tier Cyber Security students — 
+            Jayansh, Mihir, Jatin and Sagar.
+        </p>
+    </div>
+    </section> 
+    <footer class="footer">
+
+        <div class="footer-inner">
+    
+            <!-- TOP TEXT -->
+            <div class="footer-left">
+                <h1>SECURE. CONTROL. OWN.</h1>
+                <p>Your data is controlled, not stored.</p>
+            </div>
+    
+            <!-- LINKS -->
+            <div class="footer-grid">
+    
+                <div class="footer-col">
+                    <h4>System</h4>
+                    <a href="#">Start Here</a>
+                    <a href="#">Sign Up</a>
+                    <a href="#">Login</a>
+                </div>
+    
+                <div class="footer-col">
+                    <h4>Security</h4>
+                    <a href="#">Encryption</a>
+                    <a href="#">Hash ID</a>
+                    <a href="#">Authentication</a>
+                </div>
+    
+                <div class="footer-col">
+                    <h4>Workflow</h4>
+                    <a href="#">Encrypt</a>
+                    <a href="#">Decrypt</a>
+                    <a href="#">Storage</a>
+                </div>
+    
+            </div>
+    
+            <!-- BUTTONS -->
+            <div class="footer-cta">
+                <a href="#top" class="cta-outline">Start Here</a>
+                <a href="#top" class="cta-solid">Access System</a>
+            </div>
+    
+        </div>
+    
+    </footer> 
+
+<!-- ================= SCRIPT ================= -->
+<script>
+
+    /* ================= PARTICLES ================= */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    
+    let particles = [];
+    
+    for(let i=0;i<60;i++){
+        particles.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            r: Math.random()*2,
+            dx: Math.random()*0.5,
+            dy: Math.random()*0.5
+        });
+    }
+    
+    function animateParticles(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+    
+        particles.forEach(p=>{
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle="rgba(255,255,255,0.5)";
+            ctx.fill();
+    
+            p.x+=p.dx;
+            p.y+=p.dy;
+    
+            if(p.x>canvas.width) p.x=0;
+            if(p.y>canvas.height) p.y=0;
+        });
+    
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+    
+    
+    /* ================= ENTER + VIDEO ================= */
+const enter = document.getElementById("enter-screen");
+const intro = document.getElementById("video-intro");
+const video = document.getElementById("introVideo");
+const main = document.getElementById("main-content");
+const params = new URLSearchParams(window.location.search);
+const skipIntro = params.get("skip_intro");
+
+let videoStarted = false;
+
+if (skipIntro === "1") {
+
+    // 🚀 Skip intro completely
+    enter.style.display = "none";
+    intro.style.display = "none";
+
+    main.style.display = "block";
+    main.style.visibility = "visible";
+    main.style.opacity = "1";
+
+} else {
+
+    // ✅ NORMAL FLOW
+    enter.addEventListener("click", () => {
+
+        videoStarted = true;
+        document.body.classList.add("entering");
+
+        enter.style.opacity = "0";
+        setTimeout(() => enter.style.display = "none", 400);
+
+        intro.style.opacity = "1";
+        intro.style.zIndex = "9999";
+
+        video.muted = true;
+
+        video.play().then(() => {
+            setTimeout(() => {
+                video.muted = false;
+            }, 300);
+        }).catch(err => {
+            console.log("Video autoplay blocked:", err);
+        });
+
+    });
+
+    /* VIDEO END */
+    video.onended = () => {
+        intro.style.opacity = "0";
+
+        setTimeout(() => {
+            intro.style.display = "none";
+
+            main.style.display = "block";
+            main.style.visibility = "visible";
+            main.style.opacity = "1";
+
+        }, 500);
+    };
+
+    /* FAILSAFE */
+    setTimeout(() => {
+        if (!videoStarted) {
+            intro.style.display = "none";
+
+            main.style.display = "block";
+            main.style.visibility = "visible";
+            main.style.opacity = "1";
+        }
+    }, 15000);
+}
+    
+    
+    /* ================= TYPING ================= */
+    const text = "Initializing Secure Vault...\nVerifying Identity...\nAccess Layer Ready...";
+    let i = 0;
+    
+    function typeEffect(){
+        if(i < text.length){
+            document.getElementById("typing-text").innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeEffect,25);
+        }
+    }
+    typeEffect();
+    
+    
+    /* ================= SCROLL REVEAL ================= */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add("show");
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    
+    
+    /* ================= FLOW ANIMATION ================= */
+    const elements = document.querySelectorAll(
+    ".flow-step, .flow-line, .process-step, .arrow"
+    );
+    
+    window.addEventListener("scroll", () => {
+        const trigger = window.innerHeight * 0.85;
+    
+        elements.forEach(el => {
+            const top = el.getBoundingClientRect().top;
+    
+            if (top < trigger) {
+                el.classList.add("show");
+            }
+        });
+    });
+    
+    
+    /* ================= FAQ ================= */
+    document.querySelectorAll(".faq-item").forEach(item => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("active");
+        });
+    });
+    
+    
+    /* ================= CURSOR GLOW ================= */
+    const glow = document.querySelector(".cursor-glow");
+    
+    document.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
+    });
+    
+    
+    /* ================= PARALLAX ================= */
+    window.addEventListener("scroll", () => {
+        document.querySelectorAll(".parallax").forEach(el => {
+            let speed = el.dataset.speed || 0.2;
+            el.style.transform = `translateY(${window.scrollY * speed}px)`;
+        });
+    }); 
+// ✅ FLASH AUTO HIDE
+setTimeout(() => {
+    const flash = document.querySelector(".flash-message");
+    if (flash) {
+        flash.style.opacity = "0";
+        setTimeout(() => flash.remove(), 300);
+    }
+}, 3000); 
+</script> 
+<script src="script.js"></script>
+</body>
+</html>   

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+:root {
+    --gold: #f0a500;
+    --amber: #f5c842;
+    --orange: #e86210;
+    --bg: #0a0800;
+    --card-bg: #110e00;
+    --border-dim: rgba(240,165,0,0.13);
+    --border-mid: rgba(240,165,0,0.28);
+    --text-muted: #9a8050;
+    --text-body: #c8a85a;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+}
+
+/* ── ABOUT HERO ── */
+.about-hero {
+    text-align: center;
+    padding: 5rem 1.5rem 3rem;
+    position: relative;
+}
+
+.about-hero h1 {
+    font-size: clamp(1.9rem, 5vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: linear-gradient(135deg, var(--amber), var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.about-hero p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.about-hero::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--orange));
+    margin: 1.5rem auto 0;
+    border-radius: 2px;
+}
+
+/* ── FEATURES SECTION ── */
+.about-features {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 3rem;
+}
+
+.about-features h2 {
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+/* ── GRID ── */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ── CARDS ── */
+.card.glass {
+    background: var(--card-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 14px;
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s ease, transform 0.2s ease;
+}
+
+.card.glass::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.card.glass:hover { border-color: var(--border-mid); transform: translateY(-3px); }
+.card.glass:hover::before { opacity: 1; }
+
+.card.glass h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+}
+
+.card.glass p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* ── TEAM ── */
+.about-team {
+    text-align: center;
+    padding: 2rem 1.5rem 5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.about-team h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+}
+
+.about-team p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* ── REVEAL ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+
+<section class="about-hero reveal">
+    <h1>Zero Trust. Maximum Security.</h1>
+    <p>SecureVault is built on the principle that nothing should be trusted — everything must be verified.</p>
+</section>
+
+<section class="about-features">
+    <h2 class="reveal">Core Philosophy</h2>
+    <div class="grid-3">
+
+        <div class="glass reveal card">
+            <h3>🔐 Encryption First</h3>
+            <p>All data is encrypted before storage using AES & RSA layers.</p>
+        </div>
+
+        <div class="glass reveal card">
+            <h3>🧠 Identity System</h3>
+            <p>Every user is mapped to a unique HashID for secure access.</p>
+        </div>
+
+        <div class="glass reveal card">
+            <h3>⚡ Fast & Secure</h3>
+            <p>Optimized encryption pipelines ensure speed without compromise.</p>
+        </div>
+
+    </div>
+</section>
+
+<section class="about-team reveal">
+    <h2>Development Team</h2>
+    <p>Built by cybersecurity engineers focused on real-world protection.</p>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    elements.forEach(el => observer.observe(el));
+
+    // 🔥 FORCE visible if already in viewport
+    elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+            el.classList.add("visible");
+        }
+    });
+});
+</script>
+
+{% endblock %} 

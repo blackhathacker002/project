@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>View File</title>
+
+<style>
+:root {
+    --gold: #f0a500;
+    --amber: #f5c842;
+    --orange: #e86210;
+    --bg: #0a0800;
+    --bg-card: #0e0b00;
+    --bg-code: #080600;
+    --border-dim: rgba(240,165,0,0.13);
+    --border-mid: rgba(240,165,0,0.28);
+    --text-muted: #9a8050;
+    --text-dim: #5a4a20;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    background: var(--bg);
+    color: #e8d08a;
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── BODY GRID GLOW ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border-dim) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+/* ── FILENAME TITLE ── */
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, var(--amber), var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+h1::before {
+    content: '▸';
+    font-size: 1rem;
+    -webkit-text-fill-color: var(--gold);
+}
+
+/* ── FILE BOX ── */
+.file-box {
+    background: var(--bg-code);
+    border: 1px solid var(--border-dim);
+    border-radius: 12px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    position: relative;
+}
+
+.file-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent);
+    border-radius: 12px 12px 0 0;
+}
+
+.file-box pre {
+    font-family: 'Courier New', 'Consolas', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    color: #c8a850;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.7;
+}
+
+/* ── BACK LINK ── */
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 0.5rem 0.9rem;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.back:hover { color: var(--amber); border-color: var(--border-mid); }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>{{ filename }}</h1>
+
+    <div class="file-box">
+        <pre>{{ content | safe }}</pre>
+    </div>
+
+    <a href="/dashboard" class="back">← Back to Dashboard</a>
+
+</div>
+</body>
+</html>

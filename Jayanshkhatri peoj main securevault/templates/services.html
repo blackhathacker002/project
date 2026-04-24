@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+:root {
+    --gold: #f0a500;
+    --amber: #f5c842;
+    --orange: #e86210;
+    --bg: #0a0800;
+    --card-bg: #110e00;
+    --border-dim: rgba(240,165,0,0.13);
+    --border-mid: rgba(240,165,0,0.28);
+    --text-muted: #9a8050;
+    --text-dim: #4a3c18;
+    --text-body: #c8a85a;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+}
+
+/* ── HERO ── */
+.services-hero {
+    text-align: center;
+    padding: 5rem 1.5rem 3.5rem;
+    position: relative;
+}
+
+.services-hero::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--orange));
+    margin: 1.25rem auto 0;
+    border-radius: 2px;
+}
+
+.services-hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, var(--amber), var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+}
+
+.services-hero p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+    letter-spacing: 0.02em;
+}
+
+/* ── GRID ── */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+}
+
+/* ── CARD ── */
+.card.glass {
+    background: var(--card-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 14px;
+    padding: 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s ease, transform 0.2s ease;
+}
+
+.card.glass::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.card.glass:hover {
+    border-color: var(--border-mid);
+    transform: translateY(-3px);
+}
+
+.card.glass:hover::before { opacity: 1; }
+
+.card.glass h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 0.65rem;
+    letter-spacing: 0.03em;
+}
+
+.card.glass p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* ── REVEAL ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+<section class="services-hero reveal">
+    <h1>Security Modules</h1>
+    <p>Advanced encryption and authentication systems powering SecureVault.</p>
+</section>
+
+<section>
+    <div class="grid-3">
+
+        <div class="glass reveal card">
+            <h3>AES Encryption</h3>
+            <p>High-speed symmetric encryption for real-time protection.</p>
+        </div>
+
+        <div class="glass reveal card">
+            <h3>RSA Security</h3>
+            <p>Public-key cryptography ensuring secure data exchange.</p>
+        </div>
+
+        <div class="glass reveal card">
+            <h3>Hash Identity</h3>
+            <p>Unique identification system replacing traditional usernames.</p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    elements.forEach(el => observer.observe(el));
+
+    // 🔥 FORCE visible if already in viewport
+    elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+            el.classList.add("visible");
+        }
+    });
+});
+</script>
+
+{% endblock %} 

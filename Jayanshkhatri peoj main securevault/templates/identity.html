@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault - Identity Generated</title>
+
+<style>
+:root {
+    --gold: #f0a500;
+    --amber: #f5c842;
+    --orange: #e86210;
+    --bg: #0a0800;
+    --bg-card: #110e00;
+    --bg-hash: #1a1500;
+    --border-dim: rgba(240,165,0,0.15);
+    --border-mid: rgba(240,165,0,0.3);
+    --text-muted: #9a8050;
+    --text-dim: #5a4a20;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    background: var(--bg);
+    color: #e8d08a;
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* ── BACKGROUND GLOWS ── */
+body::before {
+    content: '';
+    position: fixed;
+    top: -150px; left: -150px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -150px; right: -150px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,98,16,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* ── CARD ── */
+.auth-container {
+    width: 100%;
+    max-width: 460px;
+}
+
+.auth-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.auth-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--amber), var(--orange), transparent);
+}
+
+/* ── HEADING ── */
+.auth-box h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, var(--amber), var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.4rem;
+}
+
+/* ── HASH BOX ── */
+.hash-box {
+    background: var(--bg-hash);
+    border: 1px solid var(--border-dim);
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    margin: 1.5rem 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hash-box p {
+    font-size: 0.82rem;
+    line-height: 1.7;
+}
+
+.hash-box strong {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.hash-box p span,
+.hash-box p {
+    font-family: 'Courier New', 'Consolas', monospace;
+    color: var(--amber);
+    word-break: break-all;
+    font-size: 0.88rem;
+}
+
+/* ── BUTTON ── */
+.auth-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 9px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold), var(--amber), var(--orange));
+    color: #1a1000;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+    font-family: inherit;
+    text-align: center;
+}
+.auth-btn:hover { opacity: 0.88; }
+.auth-btn:active { transform: scale(0.98); }
+</style>
+
+<link rel="stylesheet" href="/static/auth.css">
+</head>
+<body>
+
+<div class="auth-container">
+<div class="auth-box">
+
+    <h2>Identity Generated</h2>
+
+    <div class="hash-box">
+        <p><strong>Hash ID</strong>{{ hash_id }}</p>
+        <p><strong>Password</strong>{{ password }}</p>
+    </div>
+
+    <a href="/?skip_intro=1" class="auth-btn">Return to Landing Page</a>
+
+</div>
+</div>
+
+</body>
+</html> 

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create File - SecureVault</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+    :root {
+        --gold: #f0a500;
+        --amber: #f5c842;
+        --orange: #e86210;
+        --bg: #0a0800;
+        --bg-card: #110e00;
+        --bg-input: #1a1500;
+        --border-dim: rgba(240,165,0,0.13);
+        --border-mid: rgba(240,165,0,0.28);
+        --border-glow: rgba(240,165,0,0.55);
+        --text-muted: #9a8050;
+        --text-dim: #5a4a20;
+        --text-body: #c8a85a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+        background: var(--bg);
+        color: var(--text-body);
+        min-height: 100vh;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    .bg-glow {
+        position: fixed; inset: 0;
+        pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .bg-glow span:nth-child(1) {
+        position: absolute; top: -160px; right: -160px;
+        width: 500px; height: 500px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%);
+    }
+    .bg-glow span:nth-child(2) {
+        position: absolute; bottom: -180px; left: -100px;
+        width: 460px; height: 460px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(240,165,0,0.06) 0%, transparent 70%);
+    }
+    .bg-glow span:nth-child(3) {
+        position: absolute; inset: 0;
+        background-image:
+            linear-gradient(var(--border-dim) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+        background-size: 60px 60px; opacity: 0.3;
+    }
+
+    .page-container {
+        position: relative; z-index: 1;
+        min-height: 100vh;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 3rem 1.5rem;
+    }
+
+    .back-btn.premium-back {
+        align-self: flex-start; margin-bottom: 1.5rem;
+        font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em;
+        text-transform: uppercase; color: var(--text-muted);
+        text-decoration: none; border: 1px solid var(--border-dim);
+        border-radius: 8px; padding: 0.45rem 0.85rem;
+        transition: color 0.2s, border-color 0.2s;
+    }
+    .back-btn.premium-back:hover { color: var(--amber); border-color: var(--border-mid); }
+
+    .premium-card {
+        background: var(--bg-card); border: 1px solid var(--border-dim);
+        border-radius: 18px; padding: 2.5rem 2rem;
+        width: 100%; max-width: 500px;
+        position: relative; overflow: hidden;
+    }
+    .premium-card::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--amber), var(--gold), var(--orange), transparent);
+    }
+
+    .fade-in { animation: fadeUp 0.45s ease both; }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tag {
+        font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+        text-transform: uppercase; color: var(--orange); margin-bottom: 0.6rem;
+    }
+
+    .title {
+        font-size: 1.6rem; font-weight: 700; letter-spacing: 0.03em;
+        background: linear-gradient(135deg, var(--amber), var(--gold));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem; color: var(--text-muted);
+        line-height: 1.65; margin-bottom: 1.75rem;
+    }
+
+    .premium-form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+    .input-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .input-group label {
+        font-size: 0.73rem; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--text-muted); font-weight: 500;
+    }
+
+    .input-group input[type="text"],
+    .input-group textarea {
+        background: var(--bg-input); border: 1px solid var(--border-dim);
+        border-radius: 9px; padding: 0.7rem 0.9rem;
+        font-size: 0.9rem; color: #e8d08a;
+        outline: none; font-family: inherit; width: 100%;
+        transition: border-color 0.2s, background 0.2s;
+    }
+    .input-group input::placeholder,
+    .input-group textarea::placeholder { color: var(--text-dim); }
+    .input-group input:focus,
+    .input-group textarea:focus { border-color: var(--border-glow); background: #1e1800; }
+
+    .input-group textarea {
+        min-height: 160px; resize: vertical;
+        font-family: 'Courier New', monospace; font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    .premium-btn {
+        margin-top: 0.5rem; width: 100%; padding: 0.75rem;
+        border: none; border-radius: 9px; font-size: 0.88rem;
+        font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+        cursor: pointer; background: linear-gradient(135deg, var(--gold), var(--amber), var(--orange));
+        color: #1a1000; font-family: inherit;
+        transition: opacity 0.2s, transform 0.15s;
+    }
+    .premium-btn:hover { opacity: 0.88; }
+    .premium-btn:active { transform: scale(0.98); }
+    </style>
+</head>
+
+<body>
+
+<div class="bg-glow">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="page-container">
+
+    <a href="/dashboard" class="back-btn premium-back">
+        ← Back to Dashboard
+    </a>
+
+    <div class="premium-card fade-in">
+
+        <p class="tag">SECURE FILE CREATION</p>
+        <h1 class="title">Create New File</h1>
+        <p class="subtitle">
+            Write, store, and manage your data securely inside the vault
+        </p>
+
+        <form method="POST" action="/save" class="premium-form">
+
+            <div class="input-group">
+                <label>File Name</label>
+                <input
+                    type="text"
+                    name="filename"
+                    placeholder="Enter file name"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>File Content</label>
+                <textarea
+                    name="content"
+                    placeholder="Write your secure content here..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="premium-btn">
+                💾 Save File Securely
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html> 

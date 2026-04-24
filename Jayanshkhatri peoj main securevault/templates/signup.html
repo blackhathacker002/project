@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SecureVault - Sign Up</title>
+<link rel="stylesheet" href="/static/auth.css">
+
+<style>
+:root {
+    --gold: #f0a500;
+    --amber: #f5c842;
+    --orange: #e86210;
+    --bg: #0a0800;
+    --bg-card: #110e00;
+    --bg-input: #1a1500;
+    --border-dim: rgba(240, 165, 0, 0.15);
+    --border-mid: rgba(240, 165, 0, 0.3);
+    --border-glow: rgba(240, 165, 0, 0.55);
+    --text-muted: #9a8050;
+    --text-dim: #5a4a20;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    background: var(--bg);
+    color: #e8d08a;
+    min-height: 100vh;
+}
+
+body {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+body.loaded { opacity: 1; }
+
+/* ── BACKGROUND ── */
+.auth-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.auth-bg span:nth-child(1) {
+    position: absolute;
+    top: -180px;
+    right: -180px;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%);
+}
+
+.auth-bg span:nth-child(2) {
+    position: absolute;
+    bottom: -200px;
+    left: -120px;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,165,0,0.06) 0%, transparent 70%);
+}
+
+.auth-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border-dim) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.35;
+}
+
+/* ── LAYOUT ── */
+.auth-container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* ── CARD ── */
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), var(--gold), var(--orange), transparent);
+}
+
+/* ── HEADER ── */
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--amber) 0%, var(--gold) 50%, var(--orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.35rem;
+}
+
+.logo::before {
+    content: '⬡ ';
+    font-size: 1.2rem;
+    -webkit-text-fill-color: var(--gold);
+}
+
+.subtitle {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* ── SWITCH BAR ── */
+.switch-bar {
+    display: flex;
+    background: rgba(240,165,0,0.05);
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    padding: 3px;
+    margin-bottom: 1.75rem;
+}
+
+.switch-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.55rem 0;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.switch-btn:hover { color: var(--amber); }
+
+.switch-btn.active {
+    background: linear-gradient(135deg, rgba(240,165,0,0.18), rgba(232,98,16,0.12));
+    border: 1px solid var(--border-mid);
+    color: var(--amber);
+}
+
+/* ── FLASH ── */
+.flash-message {
+    background: rgba(232,98,16,0.12);
+    border: 1px solid rgba(232,98,16,0.35);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    font-size: 0.82rem;
+    color: #f5a060;
+    text-align: center;
+    margin-bottom: 1.25rem;
+    transition: opacity 0.3s ease;
+}
+
+/* ── FORM ── */
+form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.input-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.input-group label {
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.input-group input {
+    background: var(--bg-input);
+    border: 1px solid var(--border-dim);
+    border-radius: 9px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    color: #e8d08a;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    font-family: inherit;
+    width: 100%;
+}
+
+.input-group input::placeholder { color: var(--text-dim); }
+
+.input-group input:focus {
+    border-color: var(--border-glow);
+    background: #1e1800;
+}
+
+/* ── BUTTON ── */
+.auth-btn {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 9px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 50%, var(--orange) 100%);
+    color: #1a1000;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+    font-family: inherit;
+}
+
+.auth-btn:hover { opacity: 0.88; }
+.auth-btn:active { transform: scale(0.98); }
+
+/* ── FOOTER ── */
+.auth-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+}
+
+/* ── DIVIDER between fields ── */
+.input-group + .input-group {
+    position: relative;
+}
+</style>
+
+</head>
+<body>
+
+<div class="auth-bg">
+    <span></span>
+    <span></span>
+</div>
+
+<div class="auth-container">
+<div class="auth-box">
+
+    <div class="auth-header">
+        <h1 class="logo">SecureVault</h1>
+        <p class="subtitle">Create Secure Identity</p>
+    </div>
+
+    <div class="switch-bar">
+        <a href="/signin" class="switch-btn">Sign In</a>
+        <a href="/signup" class="switch-btn active">Sign Up</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-message">{{ messages[0] }}</div>
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" autocomplete="off">
+
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" name="name" required autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" name="email" required autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" required autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" required autocomplete="new-password">
+        </div>
+
+        <button class="auth-btn">Generate Identity</button>
+
+    </form>
+
+    <div class="auth-footer">
+        <p>Hash-based Identity • Encrypted Access • SecureVault</p>
+    </div>
+
+</div>
+</div>
+
+<script>
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+});
+</script>
+
+</body>
+</html> 

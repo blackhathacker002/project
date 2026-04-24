@@ -1,0 +1,42 @@
+{
+    "revel.txt": {
+        "status": "Encrypted",
+        "algo": "AES"
+    },
+    "play.txt": {
+        "status": "Encrypted",
+        "algo": "AES"
+    },
+    "hellohi.txt": {
+        "status": "Encrypted",
+        "algo": "AES"
+    },
+    "myname.txt": {
+        "status": "Encrypted",
+        "algo": "RSA"
+    },
+    "newtoit.txt": {
+        "status": "Encrypted",
+        "algo": "AES"
+    },
+    "canit.txt": {
+        "status": "Encrypted",
+        "algo": "AES"
+    },
+    "againnew.txt": {
+        "status": "Encrypted",
+        "algo": "RSA"
+    },
+    "yukon.txt": {
+        "status": "Encrypted",
+        "algo": "AES"
+    },
+    "sabkamalik.txt": {
+        "status": "Encrypted",
+        "algo": "RSA"
+    },
+    "secure.txt": {
+        "status": "Encrypted",
+        "algo": "RSA"
+    }
+}

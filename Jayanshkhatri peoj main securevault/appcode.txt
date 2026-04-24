@@ -1,0 +1,273 @@
+from flask import Flask, render_template, request, redirect, session, flash
+import os
+import base64
+from cryptography.fernet import Fernet
+import json
+import hashlib
+
+def generate_hash_id(phone):
+    return hashlib.sha256(phone.encode()).hexdigest()[:12].upper() 
+
+META_FILE = "files/meta.json"
+def load_meta():
+    if not os.path.exists(META_FILE):
+        return {}
+
+    try:
+        with open(META_FILE, "r") as f:
+            content = f.read().strip()
+            if not content:
+                return {}
+            return json.loads(content)
+    except:
+        return {} 
+
+def save_meta(meta):
+    with open(META_FILE, "w") as f:
+        json.dump(meta, f)
+
+app = Flask(__name__)
+app.secret_key = "supersecretkey"
+USER_FILE = "users.json" 
+
+# ================= CONFIG =================
+HASH_ID = "SECURE123"
+PASSWORD = "admin123"
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        users = load_users()
+
+        email = request.form["email"]
+
+        if email in users:
+            flash("User exists")
+            return redirect("/signup")
+
+        hash_id = generate_hash_id(request.form["phone"])
+
+        users[email] = {
+            "name": request.form["name"],
+            "phone": request.form["phone"],
+            "password": request.form["password"],
+            "hash": hash_id
+        }
+
+        save_users(users)
+
+        return render_template("identity.html", hash_id=hash_id, password=request.form["password"])
+
+    return render_template("signup.html") 
+
+# ================= KEY =================
+def generate_key(user_key):
+    return base64.urlsafe_b64encode(user_key.ljust(32)[:32])
+
+# ================= HOME =================
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+# ================= SIGNIN =================
+@app.route("/signin", methods=["GET", "POST"])
+def signin():
+    if request.method == "POST":
+        users = load_users()
+
+        for email, data in users.items():
+            if data["hash"] == request.form["hash"]:
+                session["user"] = email
+                session["auth1"] = True
+                return redirect("/password")
+
+        flash("Invalid Hash")
+        return redirect("/signin")
+
+    return render_template("signin.html") 
+
+# ================= PASSWORD =================
+@app.route("/password", methods=["GET", "POST"])
+def password():
+    if "auth1" not in session:
+        return redirect("/")
+
+    users = load_users()
+
+    if request.method == "POST":
+        email = session["user"]
+
+        if users[email]["password"] == request.form["password"]:
+            session["auth"] = True
+            return redirect("/dashboard")
+
+        session.clear()
+        return redirect("/signin")
+
+    return render_template("password.html")
+
+# ================= DASHBOARD =================
+@app.route("/dashboard")
+def dashboard():
+    # 🔐 AUTH CHECK
+    if "auth" not in session:
+        return redirect("/")
+
+    # 📁 Ensure folder exists
+    if not os.path.exists("files"):
+        os.mkdir("files")
+
+    files = os.listdir("files")
+    meta = load_meta()
+
+    file_data = []
+
+    for f in files:
+        # ❌ skip metadata file
+        if f == "meta.json":
+            continue
+
+        path = os.path.join("files", f)
+
+        status = "Not Encrypted"
+
+        # ✅ 1. Check metadata first (most reliable)
+        if f in meta:
+            status = meta[f].get("status", "Not Encrypted")
+
+        else:
+            # ✅ 2. Auto-detect (fallback)
+            try:
+                with open(path, "rb") as file:
+                    data = file.read(10)
+
+                    # simulated RSA/DES detection
+                    if data.startswith(b"RSA_") or data.startswith(b"DES_"):
+                        status = "Encrypted"
+
+                    # Fernet (binary check)
+                    elif not data.isascii():
+                        status = "Encrypted"
+
+            except:
+                status = "Unknown"
+
+        # 🕒 Get file modification time
+        try:
+            file_time = os.path.getmtime(path)
+        except:
+            file_time = 0
+
+        file_data.append({
+            "name": f,
+            "status": status,
+            "time": file_time
+        })
+
+    # 🔥 SORT → newest first
+    file_data.sort(key=lambda x: x["time"], reverse=True)
+
+    # 📊 TOTAL FILES
+    total_files = len(file_data)
+
+    # 🚀 RENDER
+    return render_template(
+        "dashboard.html",
+        files=file_data,
+        total=total_files
+    )
+# ================= VIEW FILE =================
+@app.route("/view/<filename>")
+def view(filename):
+    if "auth" not in session:
+        return redirect("/")
+
+    path = os.path.join("files", filename)
+
+    with open(path, "rb") as f:
+        content = f.read()
+
+    return render_template("view.html", data=content.decode(errors="ignore"), filename=filename)
+
+# ================= NEW FILE =================
+@app.route("/new")
+def new():
+    if "auth" not in session:
+        return redirect("/")
+    return render_template("editor.html")
+
+@app.route("/save", methods=["POST"])
+def save():
+    filename = request.form["filename"] + ".txt"
+    content = request.form["content"]
+
+    path = os.path.join("files", filename)
+
+    with open(path, "w") as f:
+        f.write(content)
+
+    meta = load_meta()
+    meta[filename] = {"status": "Not Encrypted"}
+    save_meta(meta)
+
+    return redirect("/dashboard")
+# ================= ENCRYPT =================
+@app.route("/encrypt", methods=["GET", "POST"])
+def encrypt():
+    if request.method == "POST":
+        file = request.files["file"]
+        algo = request.form["algo"]
+        user_key = request.form["key"].encode()
+
+        data = file.read()
+
+        if algo == "AES":
+            key = generate_key(user_key)
+            fernet = Fernet(key)
+            encrypted = fernet.encrypt(data)
+
+        elif algo == "DES":
+            encrypted = b"DES_" + data[::-1]   # simulated DES
+
+        elif algo == "RSA":
+            encrypted = b"RSA_" + data[::-1]   # simulated RSA
+
+        with open("files/" + file.filename, "wb") as f:
+            f.write(encrypted)
+
+        meta = load_meta()
+        meta[file.filename] = {"status": "Encrypted", "algo": algo}
+        save_meta(meta)
+
+        return redirect("/dashboard")
+
+    return render_template("encrypt.html")
+
+# ================= DECRYPT =================
+@app.route("/decrypt", methods=["GET", "POST"])
+def decrypt():
+    if request.method == "POST":
+        file = request.files["file"]
+        key = generate_key(request.form["key"].encode())
+
+        fernet = Fernet(key)
+
+        try:
+            data = fernet.decrypt(file.read())
+            return render_template("output.html", data=data.decode())
+        except:
+            session.clear()
+            flash("Login Failed: Wrong Key")
+            return redirect("/")
+
+    return render_template("decrypt.html")
+
+# ================= LOGOUT =================
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+# ================= RUN =================
+if __name__ == "__main__":
+    app.run(debug=True)  
