@@ -55,29 +55,11 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
 @keyframes eRingPulse{0%,100%{opacity:1;transform:translate(-50%,-50%) scale(1)}50%{opacity:0.25;transform:translate(-50%,-50%) scale(1.06)}}
 
 /* ══ VIDEO INTRO ══ */
-#video-intro{
-  position:fixed;inset:0;z-index:8500;
-  background:#000;
-  display:none;
-  align-items:center;justify-content:center;
-  opacity:0;
-  transition:opacity .5s ease;
-}
+#video-intro{position:fixed;inset:0;z-index:8500;background:#000;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease}
 #video-intro.visible{display:flex}
 #video-intro.faded-in{opacity:1}
 #introVideo{width:100%;height:100%;object-fit:cover;display:block}
-/* Skip button */
-#skip-btn{
-  position:absolute;bottom:36px;right:44px;
-  font-family:var(--font-m);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
-  color:rgba(240,165,0,0.55);
-  background:rgba(6,4,0,0.7);
-  border:1px solid rgba(240,165,0,0.2);
-  border-radius:4px;padding:9px 20px;
-  cursor:none;
-  transition:color .2s,border-color .2s,background .2s;
-  z-index:1;
-}
+#skip-btn{position:absolute;bottom:36px;right:44px;font-family:var(--font-m);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,165,0,0.55);background:rgba(6,4,0,0.7);border:1px solid rgba(240,165,0,0.2);border-radius:4px;padding:9px 20px;cursor:none;transition:color .2s,border-color .2s,background .2s;z-index:1}
 #skip-btn:hover{color:var(--gold);border-color:rgba(240,165,0,0.5);background:rgba(6,4,0,0.9)}
 
 /* ══ MAIN ══ */
@@ -295,6 +277,216 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
 .f-title{font-size:14px;font-weight:700;margin-bottom:9px;color:var(--text1)}
 .f-desc{font-size:12px;color:var(--text3);line-height:1.8}
 
+/* ══════════════════════════════════════
+   MEET THE TEAM SECTION (index.html)
+══════════════════════════════════════ */
+.team-section{
+  padding:110px 0;
+  border-bottom:1px solid var(--border1);
+  background:var(--bg2);
+  position:relative;
+  overflow:hidden;
+}
+/* Subtle background texture */
+.team-section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 50%, rgba(240,165,0,0.03) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 60% at 90% 30%, rgba(232,98,16,0.025) 0%, transparent 50%);
+  pointer-events:none;
+}
+.team-section-head{
+  margin-bottom:72px;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.team-section-sub{
+  font-size:14px;
+  color:var(--text3);
+  line-height:1.9;
+  max-width:400px;
+  margin-top:16px;
+}
+
+/* ── CARD GRID ── */
+.team-cards{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:20px;
+  position:relative;
+  z-index:1;
+}
+
+/* ── INDIVIDUAL CARD ── */
+.tm-card{
+  position:relative;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--border1);
+  background:var(--bg);
+  transition:border-color .38s ease, transform .38s ease, box-shadow .38s ease;
+  cursor:default;
+}
+.tm-card:hover{
+  border-color:rgba(240,165,0,0.38);
+  transform:translateY(-10px);
+  box-shadow:
+    0 32px 70px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(240,165,0,0.06),
+    0 0 50px rgba(240,165,0,0.07);
+}
+
+/* ── PHOTO AREA ── */
+.tm-photo-wrap{
+  position:relative;
+  width:100%;
+  padding-top:115%; /* portrait proportion */
+  overflow:hidden;
+  background:#080600;
+}
+.tm-photo-wrap img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  /*
+    Neutral warm treatment:
+    - Desaturate so any colourful background recedes
+    - Slight warm sepia tint that matches the gold palette
+    - Moderate brightness reduction for the dark theme
+    - Contrast bump to keep faces readable
+  */
+  filter:
+    grayscale(35%)
+    sepia(20%)
+    contrast(1.1)
+    brightness(0.82)
+    saturate(0.75);
+  transition:filter .45s ease, transform .5s ease;
+}
+.tm-card:hover .tm-photo-wrap img{
+  filter:
+    grayscale(15%)
+    sepia(12%)
+    contrast(1.12)
+    brightness(0.9)
+    saturate(0.85);
+  transform:scale(1.045);
+}
+
+/* Photo-to-card gradient blend */
+.tm-photo-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    transparent 38%,
+    rgba(6,4,0,0.4) 65%,
+    rgba(6,4,0,0.96) 100%
+  );
+  pointer-events:none;
+  z-index:1;
+}
+
+/* Warm gold glow on hover */
+.tm-photo-glow{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(240,165,0,0.09) 0%, transparent 60%);
+  opacity:0;
+  transition:opacity .45s ease;
+  pointer-events:none;
+  z-index:2;
+}
+.tm-card:hover .tm-photo-glow{opacity:1}
+
+/* Index badge — top right corner of photo */
+.tm-badge{
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:10;
+  font-family:var(--font-m);
+  font-size:8px;
+  letter-spacing:0.2em;
+  color:rgba(240,165,0,0.5);
+  background:rgba(6,4,0,0.75);
+  border:1px solid rgba(240,165,0,0.15);
+  border-radius:5px;
+  padding:5px 9px;
+  backdrop-filter:blur(8px);
+}
+
+/* ── TEXT BLOCK ── */
+.tm-info{
+  padding:22px 22px 28px;
+  position:relative;
+  background:var(--bg);
+}
+/* Top separator line */
+.tm-info::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:18px;
+  right:18px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(240,165,0,0.18), transparent);
+}
+.tm-name{
+  font-size:18px;
+  font-weight:800;
+  color:var(--text1);
+  letter-spacing:0.01em;
+  margin-bottom:5px;
+  font-family:var(--font-b);
+}
+.tm-role{
+  font-family:var(--font-m);
+  font-size:8.5px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:rgba(240,165,0,0.58);
+  margin-bottom:13px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+/* Small gold tick before role */
+.tm-role::before{
+  content:'';
+  display:inline-block;
+  width:16px;
+  height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  flex-shrink:0;
+}
+.tm-desc{
+  font-size:12px;
+  color:var(--text3);
+  line-height:1.75;
+}
+
+/* Bottom gold accent bar on hover */
+.tm-card::after{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s ease;
+}
+.tm-card:hover::after{transform:scaleX(1)}
+
 /* ══ FAQ ══ */
 .faq-outer{max-width:760px;margin:0 auto;padding:100px 52px}
 .faq-eyebrow{text-align:center;justify-content:center;margin-bottom:16px}
@@ -334,6 +526,9 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
 .gold-div{height:1px;background:linear-gradient(90deg,transparent,rgba(240,165,0,0.15),transparent)}
 
 /* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  .team-cards{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:1000px){
   .nav{padding:0 20px}
   .nav-links{display:none}
@@ -355,6 +550,10 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
   .float-card{display:none}
   .enc-legend{padding:14px 20px}
   .algo-inner{padding:0 20px}
+  .team-section{padding:80px 0}
+}
+@media(max-width:600px){
+  .team-cards{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -418,7 +617,6 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
   <div class="hero-vignette"></div>
 
   <div class="hero-inner">
-    <!-- LEFT -->
     <div class="hero-left">
       <div class="hero-eyebrow">
         <span class="eyebrow-dot"></span>
@@ -442,14 +640,11 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
       </div>
     </div>
 
-    <!-- RIGHT — Phone Mockup -->
     <div class="hero-right">
       <div class="phone-halo"></div>
       <div class="phone-orbit po1"></div>
       <div class="phone-orbit po2"></div>
       <div class="phone-orbit po3"></div>
-
-      <!-- Floating data cards -->
       <div class="float-card fc-left">
         <div class="fc-title">AES Bit Key</div>
         <div class="fc-val">256</div>
@@ -464,8 +659,6 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
         <div class="fc-val">6</div>
         <div class="fc-sub">Zero Trust</div>
       </div>
-
-      <!-- THE PHONE -->
       <div class="phone-mockup">
         <div class="phone-notch"><div class="pn-cam"></div><div class="pn-dot"></div></div>
         <div class="phone-btn-r"></div>
@@ -518,7 +711,7 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
           </div>
         </div>
       </div>
-    </div><!-- /hero-right -->
+    </div>
   </div>
 </section>
 
@@ -533,13 +726,13 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
     <div class="stat-cell reveal"><div class="sv">256</div><div class="sk">AES Bit Key</div></div>
     <div class="stat-cell reveal"><div class="sv">2048</div><div class="sk">RSA Bit Key</div></div>
     <div class="stat-cell reveal"><div class="sv">6</div><div class="sk">Security Layers</div></div>
-    <div class="stat-cell reveal"><div class="sv">0</div><div class="sk">Trust Assumptions</div></div>
+    <div class="stat-cell reveal"><div class="sv">ZERO</div><div class="sk">Trust Assumptions</div></div>
   </div>
 </div>
 
 <div class="gold-div"></div>
 
-<!-- ══════════ HOW IT WORKS ══════════ -->
+<!-- HOW IT WORKS -->
 <div class="hiw-outer">
   <div class="hiw-bg-text">SECURE</div>
   <div class="wrap">
@@ -579,8 +772,6 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
           </div>
         </div>
       </div>
-
-      <!-- HIW Phone Scene -->
       <div class="hiw-phone-scene reveal">
         <div class="hiw-phone-glow"></div>
         <span class="hiw-badge hib1"><span class="hib-dot"></span>HashID Active</span>
@@ -637,7 +828,7 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
 
 <div class="gold-div"></div>
 
-<!-- ══════════ ALGORITHMS ══════════ -->
+<!-- ALGORITHMS -->
 <div class="algo-section" id="arch">
   <div class="algo-inner">
     <div class="algo-header">
@@ -683,7 +874,7 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
 
 <div class="gold-div"></div>
 
-<!-- ══════════ FEATURES ══════════ -->
+<!-- FEATURES -->
 <div class="feat-outer">
   <div class="wrap">
     <div class="feat-split">
@@ -703,7 +894,82 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
   </div>
 </div>
 
-<!-- ══════════ FAQ ══════════ -->
+<!-- ══════════ MEET THE TEAM ══════════ -->
+<div class="team-section">
+  <div class="wrap">
+    <div class="team-section-head">
+      <p class="eyebrow reveal">The Builders</p>
+      <h2 class="s-h2 reveal">Meet The<br>Team</h2>
+      <p class="team-section-sub reveal">Four minds behind the vault — built with precision, deployed with purpose.</p>
+    </div>
+
+    <div class="team-cards">
+
+      <!-- Jayansh -->
+      <div class="tm-card reveal">
+        <div class="tm-photo-wrap">
+          <img src="{{ url_for('static', filename='team/jayansh.jpeg') }}" alt="Jayansh — Cryptography Lead" loading="lazy">
+          <div class="tm-photo-overlay"></div>
+          <div class="tm-photo-glow"></div>
+        </div>
+        <div class="tm-badge">01</div>
+        <div class="tm-info">
+          <div class="tm-name">Jayansh</div>
+          <div class="tm-role">Cryptography Lead</div>
+          <div class="tm-desc">Designed the core encryption pipeline and HashID identity system. Specialist in applied cryptographic protocols.</div>
+        </div>
+      </div>
+
+      <!-- Mihir -->
+      <div class="tm-card reveal">
+        <div class="tm-photo-wrap">
+          <img src="{{ url_for('static', filename='team/mihir.jpeg') }}" alt="Mihir — Security Architecture" loading="lazy">
+          <div class="tm-photo-overlay"></div>
+          <div class="tm-photo-glow"></div>
+        </div>
+        <div class="tm-badge">02</div>
+        <div class="tm-info">
+          <div class="tm-name">Mihir</div>
+          <div class="tm-role">Security Architecture</div>
+          <div class="tm-desc">Architected the zero-trust authentication model and multi-layer access verification system.</div>
+        </div>
+      </div>
+
+      <!-- Jatin -->
+      <div class="tm-card reveal">
+        <div class="tm-photo-wrap">
+          <img src="{{ url_for('static', filename='team/jatin.jpeg') }}" alt="Jatin — Backend Systems" loading="lazy">
+          <div class="tm-photo-overlay"></div>
+          <div class="tm-photo-glow"></div>
+        </div>
+        <div class="tm-badge">03</div>
+        <div class="tm-info">
+          <div class="tm-name">Jatin</div>
+          <div class="tm-role">Backend Systems</div>
+          <div class="tm-desc">Built the Flask infrastructure, file management engine, and session handling with security-first design.</div>
+        </div>
+      </div>
+
+      <!-- Sagar -->
+      <div class="tm-card reveal">
+        <div class="tm-photo-wrap">
+          <img src="{{ url_for('static', filename='team/sagar.jpeg') }}" alt="Sagar — Interface Design" loading="lazy">
+          <div class="tm-photo-overlay"></div>
+          <div class="tm-photo-glow"></div>
+        </div>
+        <div class="tm-badge">04</div>
+        <div class="tm-info">
+          <div class="tm-name">Sagar</div>
+          <div class="tm-role">Interface Design</div>
+          <div class="tm-desc">Crafted the user experience and visual language — making military-grade security feel intuitive and precise.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
 <div class="faq-outer">
   <p class="eyebrow faq-eyebrow reveal">FAQ</p>
   <h2 class="s-h2 faq-heading reveal">System Queries</h2>
@@ -727,7 +993,7 @@ body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:56px;height:5
   </div>
 </div>
 
-<!-- ══════════ FOOTER ══════════ -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-main">
     <div>
@@ -808,24 +1074,14 @@ const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.tar
 function showMain(){
   const m=document.getElementById('main');
   m.classList.add('visible');
-  // Slight delay to allow display:block to take effect before fading in
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      m.classList.add('faded-in');
-      initAfterReveal();
-    });
-  });
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{m.classList.add('faded-in');initAfterReveal();})});
 }
 
 /* ══ HIDE VIDEO INTRO & SHOW MAIN ══ */
 function hideVideoAndShowMain(){
   const vi=document.getElementById('video-intro');
-  vi.style.transition='opacity .5s ease';
-  vi.style.opacity='0';
-  setTimeout(()=>{
-    vi.style.display='none';
-    showMain();
-  },520);
+  vi.style.transition='opacity .5s ease';vi.style.opacity='0';
+  setTimeout(()=>{vi.style.display='none';showMain();},520);
 }
 
 /* ══ ENTER LOGIC ══ */
@@ -834,84 +1090,33 @@ const videoIntro=document.getElementById('video-intro');
 const introVid=document.getElementById('introVideo');
 const skipBtn=document.getElementById('skip-btn');
 const params=new URLSearchParams(window.location.search);
-
 let enterDone=false;
 
 if(params.get('skip_intro')==='1'){
-  // Skip everything — go straight to main
-  enterScr.style.display='none';
-  videoIntro.style.display='none';
-  showMain();
+  enterScr.style.display='none';videoIntro.style.display='none';showMain();
 } else {
-  // Show enter screen, wait for click
   document.getElementById('enterBtn').addEventListener('click',()=>{
-    if(enterDone)return;
-    enterDone=true;
-
-    // Fade out enter screen
-    enterScr.style.transition='opacity .5s ease';
-    enterScr.style.opacity='0';
-
+    if(enterDone)return;enterDone=true;
+    enterScr.style.transition='opacity .5s ease';enterScr.style.opacity='0';
     setTimeout(()=>{
       enterScr.style.display='none';
-
-      // Show video intro
       videoIntro.classList.add('visible');
-      // Fade in video
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>{
-          videoIntro.classList.add('faded-in');
-        });
-      });
-
-      // Reset and play with audio
-      introVid.currentTime=0;
-      introVid.muted=false;
-      introVid.volume=1;
+      requestAnimationFrame(()=>{requestAnimationFrame(()=>{videoIntro.classList.add('faded-in');})});
+      introVid.currentTime=0;introVid.muted=false;introVid.volume=1;
       const playPromise=introVid.play();
-      if(playPromise!==undefined){
-        playPromise.catch(()=>{
-          // Autoplay with audio blocked — try muted fallback
-          introVid.muted=true;
-          introVid.play().catch(()=>{
-            // Video completely failed — skip straight to main
-            videoIntro.style.display='none';
-            showMain();
-          });
-        });
-      }
+      if(playPromise!==undefined){playPromise.catch(()=>{introVid.muted=true;introVid.play().catch(()=>{videoIntro.style.display='none';showMain();});});}
     },520);
   });
-
-  // Video ended naturally
   introVid.addEventListener('ended',hideVideoAndShowMain);
-
-  // Skip button
-  skipBtn.addEventListener('click',()=>{
-    introVid.pause();
-    hideVideoAndShowMain();
-  });
-
-  // Safety fallback: if nothing happens after 20s, show main
-  setTimeout(()=>{
-    if(!enterDone){
-      enterDone=true;
-      enterScr.style.display='none';
-      showMain();
-    }
-  },20000);
+  skipBtn.addEventListener('click',()=>{introVid.pause();hideVideoAndShowMain();});
+  setTimeout(()=>{if(!enterDone){enterDone=true;enterScr.style.display='none';showMain();}},20000);
 }
 
 /* ══ INIT AFTER MAIN IS REVEALED ══ */
 function initAfterReveal(){
-  // Observe all reveal elements
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-  // Animate phone cards
   animatePhoneCards();
   animateHIWSteps();
-
-  // Update phone clock
   function updatePhoneClock(){
     const now=new Date();
     const h=String(now.getHours()).padStart(2,'0');
@@ -919,57 +1124,35 @@ function initAfterReveal(){
     const el=document.getElementById('phoneTime');
     if(el)el.textContent=`${h}:${m}`;
   }
-  updatePhoneClock();
-  setInterval(updatePhoneClock,30000);
-
-  // Init canvases
+  updatePhoneClock();setInterval(updatePhoneClock,30000);
   initHeroCanvas();
   initEncCanvas();
-
-  // Ticker
   const tWords=['AES-256 ACTIVE','RSA-2048 SECURE','HASH VERIFIED','ENCRYPTION LIVE','ZERO TRUST','DES LAYER','2FA ENABLED','IDENTITY LOCKED','MATH VERIFIED','KEYS SECURE','VAULT ONLINE','FERNET ACTIVE'];
   const tt=document.getElementById('tickTrack');
   let th='';
   for(let i=0;i<4;i++) tWords.forEach(w=>{th+=`<span class="t-item">${w}<span class="t-div">◆</span></span>`;});
   tt.innerHTML=th+th;
-
-  // FAQ
   document.getElementById('faqList').querySelectorAll('.faq-item').forEach(item=>{
     item.addEventListener('click',()=>{const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));if(!isOpen)item.classList.add('open')});
   });
-
-  // Flash auto-remove
   setTimeout(()=>{const f=document.querySelector('.flash');if(f){f.style.opacity='0';setTimeout(()=>f.remove(),300)}},3000);
-
-  // Nav scroll effect
   window.addEventListener('scroll',()=>{
     const n=document.getElementById('navbar');
     if(n)n.style.borderBottomColor=window.scrollY>60?'rgba(240,165,0,0.2)':'rgba(240,165,0,0.08)';
   });
 }
 
-/* ══ PHONE CARD ANIMATION ══ */
 function animatePhoneCards(){
   const cards=document.querySelectorAll('.ps-card');
   if(!cards.length)return;
   let idx=1;
-  setInterval(()=>{
-    cards.forEach(c=>c.classList.remove('active'));
-    cards[idx].classList.add('active');
-    idx=(idx+1)%cards.length;
-  },1800);
+  setInterval(()=>{cards.forEach(c=>c.classList.remove('active'));cards[idx].classList.add('active');idx=(idx+1)%cards.length;},1800);
 }
 
-/* ══ HIW STEP ANIMATION ══ */
 function animateHIWSteps(){
   const steps=document.querySelectorAll('.hiw-flow-step');
   if(!steps.length)return;
   let idx=0;
-  const statusTexts=[
-    {ok:'✓',cls:'hfss-ok'},
-    {ok:'Active',cls:'hfss-act'},
-    {ok:'Pending',cls:'hfss-pend'}
-  ];
   setInterval(()=>{
     steps.forEach((s,i)=>{
       s.classList.toggle('hs-active',i===idx);
@@ -982,7 +1165,6 @@ function animateHIWSteps(){
   },2000);
 }
 
-/* ══ HERO CANVAS ══ */
 function initHeroCanvas(){
   const hC=document.getElementById('heroCanvas');
   if(!hC)return;
@@ -991,8 +1173,7 @@ function initHeroCanvas(){
   setH();window.addEventListener('resize',setH);
   let t=0;
   function drawHero(){
-    hCtx.clearRect(0,0,hC.width,hC.height);
-    t+=.004;
+    hCtx.clearRect(0,0,hC.width,hC.height);t+=.004;
     const size=56,cols=Math.ceil(hC.width/size)+2,rows=Math.ceil(hC.height/size)+2;
     for(let r=0;r<rows;r++){for(let c=0;c<cols;c++){
       const w=Math.sin(c*.3+t)*Math.sin(r*.25+t*.8);
@@ -1004,7 +1185,6 @@ function initHeroCanvas(){
   drawHero();
 }
 
-/* ══ ENCRYPTION CANVAS ══ */
 function initEncCanvas(){
   const ec=document.getElementById('encCanvas');
   if(!ec)return;
@@ -1026,7 +1206,6 @@ function initEncCanvas(){
     }
     lanes.forEach(lane=>{
       const yb=EH*lane.yBase;
-      // Main wave
       eCtx.beginPath();
       for(let x=0;x<EW;x++){
         const n=Math.sin(x*.09+et*2.2)*.3+Math.cos(x*.14+et*1.5)*.18;
@@ -1034,7 +1213,6 @@ function initEncCanvas(){
         if(x===0)eCtx.moveTo(x,yb+w);else eCtx.lineTo(x,yb+w);
       }
       eCtx.strokeStyle=lane.color+'cc';eCtx.lineWidth=1.6;eCtx.stroke();
-      // Glow
       eCtx.beginPath();
       for(let x=0;x<EW;x++){
         const n=Math.sin(x*.09+et*2.2)*.3+Math.cos(x*.14+et*1.5)*.18;
@@ -1042,7 +1220,6 @@ function initEncCanvas(){
         if(x===0)eCtx.moveTo(x,yb+w);else eCtx.lineTo(x,yb+w);
       }
       eCtx.strokeStyle=lane.color+'1e';eCtx.lineWidth=8;eCtx.stroke();
-      // Moving packet
       const dotX=((et*65+lane.phase*35)%(EW+60))-30;
       const dotN=Math.sin(dotX*.09+et*2.2)*.3+Math.cos(dotX*.14+et*1.5)*.18;
       const dotY=yb+Math.sin(dotX*lane.freq+et+lane.phase)*lane.amp*(1+dotN*.4);
@@ -1065,4 +1242,4 @@ function initEncCanvas(){
 }
 </script>
 </body>
-</html>
+</html>  
